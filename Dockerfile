@@ -1,8 +1,13 @@
 FROM debian:latest
+ENV CEREBRO_VERSION=0.7.2
+
 RUN echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/sources.list.d/jessie-backports.list
 RUN apt-get update && apt-get -qqy install openjdk-8-jre-headless wget nano gettext-base
-RUN cd /opt && mkdir cerebro && cd cerebro && wget https://github.com/lmenezes/cerebro/releases/download/v0.3.1/cerebro-0.3.1.tgz && tar xvf cerebro-0.3.1.tgz
-ADD application.conf.template /opt/cerebro/cerebro-0.3.1/conf/application.conf.template
+RUN mkdir -p /opt/cerebro && cd /opt/cerebro && \
+    wget https://github.com/lmenezes/cerebro/releases/download/v$CEREBRO_VERSION/cerebro-$CEREBRO_VERSION.tgz && \
+    tar xvf cerebro-$CEREBRO_VERSION.tgz
+ADD config /config
 ADD start.sh /start.sh
 EXPOSE 9000
 ENTRYPOINT ["/start.sh"]
+

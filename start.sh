@@ -1,5 +1,26 @@
 #!/bin/bash
-export HOST="$1"
-cat /opt/cerebro/cerebro-0.3.1/conf/application.conf.template|envsubst > /opt/cerebro/cerebro-0.3.1/conf/application.conf
-cat /opt/cerebro/cerebro-0.3.1/conf/application.conf
-exec /opt/cerebro/cerebro-0.3.1/bin/cerebro
+
+# 0 - Required
+export VERSION=$CEREBRO_VERSION
+export HOSTS="$@"
+
+
+# 1 - If hosts are not declared, localhost by default
+
+if [ -z "$1" ]; then
+  echo "No hosts declared, Using default config"
+  cp /config/.default.conf /opt/cerebro/cerebro-$VERSION/conf/application.conf
+
+# 2 - If hosts are declared in arg shell values
+else
+  for entry in $HOSTS; do
+    export host=$entry
+    cat /config/.snippet | envsubst >> /config/500_hosts.conf.template
+  done
+  cat /config/*.conf.template >> /opt/cerebro/cerebro-$VERSION/conf/application.conf
+
+fi
+
+# 3 - Exec cerebro !
+
+exec /opt/cerebro/cerebro-$VERSION/bin/cerebro
