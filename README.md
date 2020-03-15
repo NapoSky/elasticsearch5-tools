@@ -1,6 +1,6 @@
 Tech used
 ---------
-Cerebro based on https://github.com/lmenezes/cerebro (actually 0.7.2)
+Cerebro based on https://github.com/lmenezes/cerebro (actually 0.8.5)
 
 How?
 ----

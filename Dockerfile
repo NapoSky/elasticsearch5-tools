@@ -1,8 +1,7 @@
 FROM debian:latest
-ENV CEREBRO_VERSION=0.7.2
+ENV CEREBRO_VERSION=0.8.5
 
-RUN echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/sources.list.d/jessie-backports.list
-RUN apt-get update && apt-get -qqy install openjdk-8-jre-headless wget nano gettext-base
+RUN apt-get update && apt-get -qqy install openjdk-11-jre-headless wget nano gettext-base
 RUN mkdir -p /opt/cerebro && cd /opt/cerebro && \
     wget https://github.com/lmenezes/cerebro/releases/download/v$CEREBRO_VERSION/cerebro-$CEREBRO_VERSION.tgz && \
     tar xvf cerebro-$CEREBRO_VERSION.tgz
